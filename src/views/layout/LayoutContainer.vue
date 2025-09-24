@@ -106,6 +106,13 @@ const loginOut = () => {
             <span>手机膜</span>
           </el-menu-item>
         </el-sub-menu>
+        <!--礼品管理-->
+        <el-menu-item index="/gift">
+          <el-icon>
+            <Star />
+          </el-icon>
+          <span>礼品管理</span>
+        </el-menu-item>
         <!--办理会员-->
         <el-menu-item index="/vipPro">
           <el-icon>

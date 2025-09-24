@@ -1,23 +1,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
-import { cateDeleteApi, cateGetApi } from '@/api/cate.ts'
+import { cateDeleteApi } from '@/api/cate.ts'
 import type { CateItem } from '@/types/CateItem'
 import CateChannel from '@/views/type/components/CateChannel.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { JelCateChannel } from '@/types/components'
+import { useCateStore } from '@/stores/modules/cate'
+
+// 定义store
+const cateStore = useCateStore()
 // 获取子组件
 const dialog = ref<JelCateChannel>()
 // 加载
 const loading = ref(true)
-// 获取分类
-const cateList = ref<CateItem[]>([])
-const cateListGet = async () => {
-  loading.value = true
-  const res = await cateGetApi()
-  cateList.value = res.data
-  loading.value = false
-}
 
 // 添加
 const onAddChannel = (row: CateItem) => {
@@ -38,13 +34,13 @@ const onDelChannel = (row: CateItem) => {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
-    confirmButtonClass: 'el-button--danger', // Element 内置类
+    confirmButtonClass: 'el-button--danger' // Element 内置类
   })
     .then(async () => {
       const res = await cateDeleteApi(row._id)
       if (res.code === 200) {
         ElMessage.success('删除成功')
-        await cateListGet()
+        await cateStore.cateListGet()
       }
     })
     .catch((err) => {
@@ -55,10 +51,10 @@ const onDelChannel = (row: CateItem) => {
 
 // 处理子组件操作成功
 const handleSuccess = () => {
-  cateListGet()
+  cateStore.cateListGet()
 }
 
-onMounted(() => cateListGet())
+onMounted(() => cateStore.cateListGet())
 </script>
 
 <template>
@@ -67,7 +63,7 @@ onMounted(() => cateListGet())
     <template #extra>
       <el-button type="danger" @click="onAddChannel">添加类型</el-button>
     </template>
-    <el-table :data="cateList" style="width: 100%" v-loading="loading">
+    <el-table :data="cateStore.cateList" style="width: 100%" v-loading="cateStore.loading">
       <el-table-column label="序号" align="center" width="60" type="index"></el-table-column>
       <el-table-column label="分类名称" align="center" prop="name"></el-table-column>
       <el-table-column label="操作" align="center" width="160">

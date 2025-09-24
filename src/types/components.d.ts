@@ -6,6 +6,7 @@ import BrandChannel from '@/views/productPage/phoneBrand/conponents/BrandChannel
 import PhoneMoChannel from '@/views/productPage/phoneMo/components/PhoneMoChannel.vue'
 import VipProductChannel from '@/views/vipProduct/components/VipProductChannel.vue'
 import VipOrderChannel from '@/views/order/vipOrder/components/VipOrderChannel.vue'
+import GiftChannel from '@/views/giftPages/components/GiftChannel.vue'
 
 declare module 'vue' {
   export interface GlobalComponents {
@@ -17,6 +18,7 @@ declare module 'vue' {
     PhoneMoChannel: typeof PhoneMoChannel
     VipProductChannel: typeof VipProductChannel
     VipOrderChannel: typeof VipOrderChannel
+    GiftChannel: typeof GiftChannel
   }
 }
 
@@ -28,3 +30,4 @@ export type JelBrandChannel = InstanceType<typeof BrandChannel>
 export type JelPhoneMoChannel = InstanceType<typeof PhoneMoChannel>
 export type JelVipProductChannel = InstanceType<typeof VipProductChannel>
 export type JelVipOrderChannel = InstanceType<typeof VipOrderChannel>
+export type JelGiftChannel = InstanceType<typeof GiftChannel>

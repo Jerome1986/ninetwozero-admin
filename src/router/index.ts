@@ -52,6 +52,7 @@ const router = createRouter({
             }
           ]
         },
+        { path: '/gift', component: () => import('@/views/giftPages/GiftPages.vue') },
         { path: '/vipPro', component: () => import('@/views/vipProduct/VipProduct.vue') },
         {
           path: '/order',
