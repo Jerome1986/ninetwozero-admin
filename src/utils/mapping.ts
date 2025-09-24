@@ -41,3 +41,13 @@ export const formatOrderState = (state: string) => {
       return '全部'
   }
 }
+
+// 店长订单状态转换
+export const formatStoreOrderState = (state: string) => {
+  switch (state) {
+    case 'pending':
+      return '未结算'
+    case 'finished':
+      return '已结算'
+  }
+}

@@ -1,4 +1,6 @@
 export type SettlementItem = {
+  /** 数据库id */
+  _id: string
   /** 门店id */
   storeId: string
   /** 门店名 */
@@ -19,6 +21,10 @@ export type SettlementItem = {
   isLook?: boolean
   /** 结算状态 */
   status?: 'pending' | 'finished'
+  /** 创建时间 */
+  createdAt?: Date
+  /** 更新时间 */
+  updatedAt?: Date
 }
 
 // 分页返回结果
@@ -112,4 +118,39 @@ export type StoreOrderFlow = {
   description: string
   /** 流水创建时间 */
   createdAt: Date
+}
+
+/**
+ * 门店已结算订单返回类型
+ */
+export type StoreOrderFinished = {
+  /** 店长姓名 */
+  managerName: string
+
+  /** 订单编号 */
+  orderNum: number
+
+  /** 订单状态 */
+  status?: 'pending' | 'finished'
+
+  /** 门店支出 */
+  storeExpense: number
+
+  /** 门店 ID */
+  storeId: string
+
+  /** 门店收入 */
+  storeIncome: number
+
+  /** 门店联系电话 */
+  storeMobile: string
+
+  /** 门店名称 */
+  storeName: string
+
+  /** 月份 */
+  month: number
+
+  /** 年份 */
+  year: number
 }

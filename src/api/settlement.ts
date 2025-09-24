@@ -3,12 +3,14 @@ import type {
   CheckStoreParentResult,
   filterFlow,
   inviterStoreItem,
-  SettlementPageResult
+  SettlementPageResult,
+  StoreOrderFinished
 } from '@/types/Settlement'
+import type { addResult, updateResult } from '@/types/Gobal'
 
 /**
  * 获取各门店经营数据
- * /settlement
+ * /settlement/get
  * @param pageNum - 页码 默认：1
  * @param pageSize - 当前条数 默认：10
  * @param year - 年份
@@ -22,7 +24,7 @@ export const settlementGetApi = (
 ) => {
   return request<SettlementPageResult>({
     method: 'GET',
-    url: '/settlement',
+    url: '/settlement/get',
     params: { pageNum, pageSize, year, month }
   })
 }
@@ -70,5 +72,47 @@ export const filterFlowApi = (
     method: 'GET',
     url: '/store/RangeType',
     params: { storeId, range, year, month }
+  })
+}
+
+/**
+ * 计算当前订单的结算金额
+ * /settlement/upRealIncome
+ * @param storeId
+ * @param year
+ * @param month
+ * @param realIncome
+ */
+export const updateSettlementRealIncomeApi = (
+  storeId: string,
+  year: number,
+  month: number,
+  realIncome: number
+) => {
+  return request<updateResult>({
+    method: 'POST',
+    url: '/settlement/upRealIncome',
+    data: { storeId, year, month, realIncome }
+  })
+}
+
+/**
+ * 管理员结算当月账单
+ * /settlement/finish
+ * @param storeId - 当前门店ID
+ * @param year - 当前年份
+ * @param month - 当前月份
+ * @param status - 当前账单状态
+ */
+export const settlementFinishApi = (
+  storeId: string,
+  year: number,
+  month: number,
+  status: 'pending' | 'finished'
+) => {
+  return request<updateResult>({
+    method: 'POST',
+    url: '/settlement/finish',
+    data: { storeId, year, month, status }
   })
 }

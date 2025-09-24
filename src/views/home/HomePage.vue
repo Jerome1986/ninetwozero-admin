@@ -2,9 +2,9 @@
 import { ref, computed, onMounted, onBeforeUnmount, watch, shallowRef } from 'vue'
 import { Cellphone, Plus, Shop } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
-import { managerOrderDataGet, platformTotalDataGet, storeDataGetApi } from '@/api/home.ts'
+import { managerOrderDataGet, platformTotalDataGet, storeDataGetApi } from '@/api/home'
 import type { ManagerOrder, StatItem, StoreData } from '@/types/Home'
-import { formatTimestamp } from '@/utils/formatTimestamp.ts'
+import { formatTimestamp } from '@/utils/formatTimestamp'
 import { useRouter } from 'vue-router'
 
 /**
