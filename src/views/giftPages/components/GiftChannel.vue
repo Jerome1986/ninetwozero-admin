@@ -5,6 +5,7 @@ import { ElMessage, genFileId, type UploadInstance, type UploadRawFile } from 'e
 import { Plus } from '@element-plus/icons-vue'
 import type { GiftItems } from '@/types/GiftItems'
 import { useCateStore } from '@/stores/modules/cate'
+import { giftListAddApi, giftListUpdateApi } from '@/api/gift.ts'
 
 // 定义store
 const cateStore = useCateStore()
@@ -71,17 +72,15 @@ const handleDetailRemove: UploadProps['onRemove'] = (uploadFile) => {
 }
 
 // 打开弹窗
-const open = (row: GiftItems) => {
+const open = async (row: GiftItems) => {
   console.log('打开弹窗', row)
   dialogVisible.value = true
   if (row._id) {
     dialogTitle.value = '编辑'
     formModel.value = { ...row }
-    // 请求更新接口
   } else {
     dialogTitle.value = '新增'
     formModel.value = row
-    // 请求新增接口
   }
   // 同步文件列表
   coverFileList.value = formModel.value.cover ? [{ name: 'cover', url: formModel.value.cover }] : []
@@ -118,7 +117,19 @@ const onSubmit = async () => {
   if (formModel.value._id) {
     try {
       console.log('提交', formModel.value)
-      console.log('更新结果')
+      const upRes = await giftListUpdateApi(
+        formModel.value._id,
+        formModel.value.cover,
+        formModel.value.name,
+        formModel.value.dec,
+        formModel.value.lookNum,
+        formModel.value.originalPrice,
+        formModel.value.currentPrice,
+        formModel.value.giftImages || [],
+        formModel.value.parent_id,
+        formModel.value.parent_name
+      )
+      console.log('更新', upRes)
       ElMessage.success('更新成功')
     } catch (error) {
       console.error('error', error)
@@ -126,9 +137,19 @@ const onSubmit = async () => {
   } else {
     try {
       console.log('新增', formModel.value)
-      // 新增前，追加本地的sku数据
-
-      console.log('新增成功')
+      // 请求新增接口
+      const addRes = await giftListAddApi(
+        formModel.value.cover,
+        formModel.value.name,
+        formModel.value.dec,
+        formModel.value.lookNum,
+        formModel.value.originalPrice,
+        formModel.value.currentPrice,
+        formModel.value.giftImages || [],
+        formModel.value.parent_id,
+        formModel.value.parent_name
+      )
+      console.log('新增成功', addRes)
       ElMessage.success('新增成功')
     } catch (error) {
       console.error('error', error)
@@ -138,7 +159,7 @@ const onSubmit = async () => {
   emits('success')
 }
 
-onMounted(async () => {})
+onMounted(async () => cateStore.cateListGet())
 </script>
 
 <template>

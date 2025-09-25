@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { GiftItems } from '@/types/GiftItems'
-import { giftListAdminGetApi } from '@/api/gift'
+import { giftListAdminGetApi, giftListDeleteApi } from '@/api/gift'
 import type { JelGiftChannel } from '@/types/components'
 import GiftChannel from '@/views/giftPages/components/GiftChannel.vue'
 
@@ -79,8 +79,10 @@ const onDelChannel = (row: GiftItems) => {
       // 删除逻辑
       if (row._id) {
         console.log('删除结果')
+        const delRes = await giftListDeleteApi(row._id)
+        console.log('删除', delRes)
         // 重新获取数据
-
+        await giftListGet(params.value.pageNum, params.value.pageSize)
         ElMessage.success('删除成功')
       }
     })
@@ -94,6 +96,7 @@ const onDelChannel = (row: GiftItems) => {
 // 处理子组件操作成功
 const handleSuccess = () => {
   console.log('成功')
+  giftListGet(params.value.pageNum, params.value.pageSize)
 }
 
 onMounted(() => {
