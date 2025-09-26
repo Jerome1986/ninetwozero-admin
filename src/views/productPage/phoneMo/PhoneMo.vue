@@ -6,7 +6,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import type { JelPhoneMoChannel } from '@/types/components'
 import PhoneMoChannel from '@/views/productPage/phoneMo/components/PhoneMoChannel.vue'
 import { usePhoneBrandStore, usePhoneTypeStore } from '@/stores'
-import { productsDeleteApi, productsGetApi } from '@/api/product.ts'
+import { productsDeleteApi, productSearchApi, productsGetApi } from '@/api/product.ts'
 
 // 定义store
 const phoneBrandStore = usePhoneBrandStore()
@@ -34,6 +34,23 @@ const handleChangeBrand = (brandId: string, index: number) => {
     params.value.pageSize
   )
 }
+
+// 根据货号或商品名称搜索
+const searchValue = ref('')
+const searchMaterialGet = async () => {
+  console.log('搜索', searchValue.value)
+  const res = await productSearchApi(searchValue.value, params.value.pageNum, params.value.pageSize)
+  console.log(res)
+  productList.value = res.data.list
+  total.value = res.data.total
+  // 搜索的时候重置分类和分页
+  brandActiveIndex.value = null
+  typeActiveIndex.value = null
+  brandCurrentId.value = ''
+  typeCurrentId.value = ''
+  params.value.pageNum = 1
+}
+
 // 处理手机型号改变
 const handleChangeType = (typeId: string, index: number) => {
   typeActiveIndex.value = index
@@ -184,6 +201,18 @@ onMounted(() => {
 <template>
   <!-- 非会员用户 -->
   <PageContainer title="手机膜设置">
+    <div class="header">
+      <!--   搜索   -->
+      <div class="search">
+        <el-input
+          v-model="searchValue"
+          style="width: 240px; margin-right: 8px"
+          placeholder="根据货号或者商品名称搜索"
+          clearable
+        />
+        <el-button type="danger" @click="searchMaterialGet">查询</el-button>
+      </div>
+    </div>
     <template #extra>
       <el-button type="danger" @click="onAddChannel">添加产品</el-button>
     </template>
@@ -301,6 +330,18 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+.header {
+  margin-bottom: 16px;
+  width: 100%;
+  color: $jel-font-title;
+
+  .search {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
 .list {
   display: flex;
   align-items: center;

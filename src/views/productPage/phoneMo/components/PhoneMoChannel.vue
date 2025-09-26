@@ -108,10 +108,10 @@ const handleDetailSuccess: UploadProps['onSuccess'] = (response) => {
   formModel.value.proImages.push(response)
 }
 const handleDetailRemove: UploadProps['onRemove'] = (uploadFile) => {
-  console.log('删除', uploadFile.response)
+  console.log('删除', uploadFile)
   // 过滤掉删除的链接
   formModel.value.proImages = formModel.value.proImages.filter(
-    (url: string) => url !== uploadFile.response
+    (url: string) => url !== uploadFile.url
   )
   console.log('删除后的数组', formModel.value.proImages)
 }
@@ -225,6 +225,7 @@ onMounted(async () => {
           <el-upload
             ref="uploadCover"
             action="https://h91gpva7y7.gzg.sealos.run/upload/images"
+            :data="{ folder: formModel.model }"
             list-type="picture-card"
             :limit="1"
             :file-list="coverFileList"
@@ -246,6 +247,7 @@ onMounted(async () => {
             :on-success="handleDetailSuccess"
             :on-preview="handleDetailCardPreview"
             :on-remove="handleDetailRemove"
+            :data="{ folder: formModel.model }"
           >
             <el-icon>
               <Plus />
@@ -316,6 +318,7 @@ onMounted(async () => {
                   v-model:file-list="row.skuFileList"
                   list-type="picture-card"
                   :limit="1"
+                  :data="{ folder: formModel.model }"
                   :on-success="
                     (resp: any) => {
                       const url = resp?.url ?? resp

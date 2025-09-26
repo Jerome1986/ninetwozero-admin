@@ -1,5 +1,5 @@
 import { request } from '@/utils/request.ts'
-import type { PageProductResult, ProductItem } from '@/types/CateItem'
+import type { PageProductResult, ProductItem, ProductSearchResult } from '@/types/CateItem'
 import type { addResult, delResult, updateResult } from '@/types/Gobal'
 import type { VipProductItem } from '@/types/VipProduct'
 
@@ -136,5 +136,20 @@ export const vipProductDeleteApi = (vipProId: string) => {
     method: 'POST',
     url: '/vip/adminDel',
     data: { vipProId }
+  })
+}
+
+/**
+ * 根据货号或商品名搜索
+ * /product/search
+ * @param searchVal - 搜索内容
+ * @param pageNum - 页码
+ * @param pageSize - 每页条数
+ */
+export const productSearchApi = (searchVal: string, pageNum: number, pageSize: number) => {
+  return request<ProductSearchResult>({
+    method: 'POST',
+    url: '/product/search',
+    data: { searchVal, pageNum, pageSize }
   })
 }

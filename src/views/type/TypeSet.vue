@@ -12,8 +12,6 @@ import { useCateStore } from '@/stores/modules/cate'
 const cateStore = useCateStore()
 // 获取子组件
 const dialog = ref<JelCateChannel>()
-// 加载
-const loading = ref(true)
 
 // 添加
 const onAddChannel = (row: CateItem) => {

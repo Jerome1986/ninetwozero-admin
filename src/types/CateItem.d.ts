@@ -122,3 +122,12 @@ export type SkuItem = {
   /** 库存 */
   stock: number
 }
+
+// 手机膜搜索返回类型
+export type ProductSearchResult = {
+  list: ProductItem[]
+  total: number
+  pageNum: number
+  pageSize: number
+  totalPage: number
+}
